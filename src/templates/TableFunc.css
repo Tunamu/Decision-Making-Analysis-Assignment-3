@@ -1,0 +1,55 @@
+.App {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    overflow:hidden;
+    border:1px solid lightgray;
+    margin: 0;
+    padding: 0;
+}
+
+th {
+    padding-left: 10px;
+    min-width: 200px;
+    height: 70px;
+    text-align: left;
+    border: 1px solid lightgray;
+}
+
+td {
+    height: 35px;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.Alternative-Inputs{
+    width: 93%;
+    height: 20px;
+    margin-top: 8px;
+}
+
+.First-Row-Element{
+    display: flex;
+    height: 43.5px;
+}
+
+.Row-Inputs{
+    width: auto;
+}
+
+.texte{
+    margin: 10px;
+    width: 100%;
+}
+
+.numberArea,.weigthInputs{
+    width: 90%;
+}
+
+.biggestResult{
+    background-color: lightgreen;
+}

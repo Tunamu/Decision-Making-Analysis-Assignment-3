@@ -1,0 +1,11 @@
+.Number-Input{
+    width: 100%; /* Genişliği tamamen kaplasın */
+    padding: 10px; /* İç boşluk */
+    box-sizing: border-box; /* Padding ve border dahil edilsin */
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 4px; /* Köşeleri yuvarlat */
+}
+
+input{
+    width: 97%;
+}

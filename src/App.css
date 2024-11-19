@@ -1,0 +1,54 @@
+.Field{
+  width: 95vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  
+}
+
+h1{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.Input-Area{
+  margin-top: 10px;
+  width: 100%;
+}
+
+.First-Buttons-Part{
+  width: 100vw;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  margin-left: 190px;
+}
+
+.Second-Buttons-Part{
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  margin-left: 100px;
+}
+
+.fiels{
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+}
+
+.Graph-Part{
+  margin-left: 70px;
+  margin-top: 20px;
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  justify-content: left ;
+  align-items: center;
+}
+
