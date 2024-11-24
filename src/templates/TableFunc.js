@@ -8,7 +8,7 @@ function headerArrayCreator(columnSize){
         else if (i === columnSize)
             columnHeaders.push("Results");
         else
-            columnHeaders.push("Parameter " + (i - 1));
+            columnHeaders.push("");
     }
     return columnHeaders
 }

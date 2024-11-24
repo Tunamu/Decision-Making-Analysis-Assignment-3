@@ -17,20 +17,24 @@ function App() {
     const checkboxValues = checkboxElements.map(element => element.checked);
 
     //For weigths
-    const weightElements = [...document.querySelectorAll('.weigthInputs')];
+    const weightElements = [...document.querySelectorAll('.Weight-Inputs')];
     const weightValues = weightElements.map(input => parseInt(input.value));
+    //console.log("Weight values : "+weightValues)
 
     //Fro the all values 
     const inputElements = [...document.querySelectorAll('.numberArea')];
     const inputValues = inputElements.map(input => parseInt(input.value));
+    //console.log("Input elements : "+inputValues)
 
     //For job names
     const jobElements = [...document.querySelectorAll('.Alternative-Inputs')];
     const jobValues = jobElements.map(input=>input.value);
+    //console.log("Job values : "+jobValues)
 
     //For parameter names 
     const AlternativeElements = [...document.querySelectorAll('.texte')];
     const AlternativeValue = AlternativeElements.map(input=>input.value);
+    //console.log("Alternative values : "+AlternativeValue)
 
   useEffect(() => {
       
@@ -50,11 +54,11 @@ function App() {
     }, [reRender]);
 
   function valueReaderAndCalculator(){
-      const newMatrix = Array(column-2).fill(null).map(() => Array(row).fill(0));
-      
+      const newMatrix = Array(column-1).fill(null).map(() => Array(row).fill(0));
+
       for (let i = 0; i < row; i++) {
-        for (let j = 0; j < column - 2; j++) {
-          newMatrix[j][i] = inputValues[((column - 2) * i) + j] || 0;
+        for (let j = 0; j < column - 1; j++) {
+          newMatrix[j][i] = inputValues[((column - 1) * i) + j] || 0;
         }
     }
   
@@ -69,7 +73,9 @@ function App() {
   function resultsArrayFinder(weightValuesArray,numbersArray,isCheckedArray){
     var resultsArray = new Array(2).fill("")
     
-    
+    var tempResults = FirstStep(numbersArray,isCheckedArray);
+    SecondStep(weightValuesArray,tempResults,isCheckedArray);
+
     for(let i = 0 ; i < (column-2) ;i++){
       let tempResult = 0;
       for(let j = 0 ; j< weightValuesArray.length ; j++){
@@ -83,11 +89,28 @@ function App() {
       resultsArray.push(tempResult)
     }
     
-    
     return resultsArray;
   }
   
+  function FirstStep(numbersArray, isCheckedArray){
+    var tempResultArray = Array(column-1).fill(null).map(() => Array(row).fill(0));
 
+    for(let i = 0 ; i < row ; i++){
+      for(let j = 0 ; j < column-1 ; j++){
+        if(isCheckedArray[j]){
+          tempResultArray[j][i] = ((Math.max(numbersArray[i])-numbersArray[j][i])/(Math.max(i)-Math.min(i)));
+        }
+      }
+    }
+
+    console.log("First Step:"+tempResultArray)
+
+    return tempResultArray;
+  }
+
+  function SecondStep(weightValues , resultsFromFirstStep , isCheckedArray){
+
+  }
 
   function valueFormatter(){
     setRow(1);
@@ -118,7 +141,7 @@ function App() {
   
   return (
     <div className="Field">
-      <h1>Multi Attribute Utility Theory </h1>
+      <h1>Assignment 3 - Multi Attribute Utility Theory </h1>
       <div className="First-Buttons-Part">
         <ButtonPropt name="Add Alternative" bgColor="lightblue" onClickFunc={()=>setRow(prevRow => prevRow + 1)}/>
         <ButtonPropt name="Add Parameter" bgColor="lightblue" onClickFunc={()=>setColumn(prevColumn => prevColumn + 1)}/>
