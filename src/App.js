@@ -28,8 +28,8 @@ function App() {
     const jobValues = jobElements.map(input=>input.value);
 
     //For parameter names 
-    const parameterElements = [...document.querySelectorAll('.texte')];
-    const parameterValues = parameterElements.map(input=>input.value);
+    const AlternativeElements = [...document.querySelectorAll('.texte')];
+    const AlternativeValue = AlternativeElements.map(input=>input.value);
 
   useEffect(() => {
       
@@ -107,8 +107,8 @@ function App() {
     const jobElements = [...document.querySelectorAll('.Alternative-Inputs')];
     jobElements.forEach(element=>element.value = '')
 
-    const parameterElements = [...document.querySelectorAll('.texte')]
-    parameterElements.forEach(element=> element.value='')
+    const AlternativeElements = [...document.querySelectorAll('.texte')]
+    AlternativeElements.forEach(element=> element.value='')
 
     const resultElements = [...document.querySelectorAll('.Result-Section')]
     resultElements.forEach(element=> element.value='')
@@ -116,10 +116,10 @@ function App() {
 
   return (
     <div className="Field">
-      <h1>Kepner-Tregoe Method</h1>
+      <h1>Multi Attribute Utility Theory </h1>
       <div className="First-Buttons-Part">
-        <ButtonPropt name="Add Parameter" bgColor="lightblue" onClickFunc={()=>setRow(prevRow => prevRow + 1)}/>
-        <ButtonPropt name="Add Alternative" bgColor="lightblue" onClickFunc={()=>setColumn(prevColumn => prevColumn + 1)}/>
+        <ButtonPropt name="Add Alternative" bgColor="lightblue" onClickFunc={()=>setRow(prevRow => prevRow + 1)}/>
+        <ButtonPropt name="Add Parameter" bgColor="lightblue" onClickFunc={()=>setColumn(prevColumn => prevColumn + 1)}/>
 
       </div>
       <div className="Input-Area">
