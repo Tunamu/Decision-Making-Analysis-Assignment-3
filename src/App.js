@@ -2,8 +2,6 @@ import './App.css';
 import ButtonPropt from './templates/ButtonPropt';
 import TableFunc from './templates/TableFunc';
 import { useState, useEffect} from 'react';
-import Chart1 from './templates/Chart1';
-import Chart2 from './templates/Chart2';
 
 function App() {
   
@@ -130,10 +128,6 @@ function App() {
       <div className="Second-Buttons-Part">
         <ButtonPropt name="Calculate" bgColor="yellowgreen" onClickFunc={()=>{setReRender(!reRender);valueReaderAndCalculator()}}/>
         <ButtonPropt name="Reset Form" bgColor="yellow" color="black" onClickFunc={()=>{valueFormatter()}}/>
-      </div>
-      <div className='Graph-Part'>
-          <Chart1 resultList = {resultArray} jobList = {jobValues} />
-          <Chart2 checkboxValues = {checkboxValues} parameterNames = {parameterValues} resultList = {resultArray} weightValues={weightValues}/>
       </div>
     </div>
   );
