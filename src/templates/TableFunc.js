@@ -24,6 +24,7 @@ function headerCreator(columnSize) {
                 <th className='Header-Type'>
                     {columnHeaders[i]}
                     <input type='text' placeholder="Job" className='Alternative-Inputs'/>
+                    <input type='text' placeholder="Weight   (--) => (%--)" className='Weight-Inputs'/>
                 </th>)
         }
     }
@@ -57,7 +58,7 @@ function rowGen(index, columnSize, tempResult , biggest) {
             else
                 columns.push(<td key={i} className='Result-Section'>{tempResult}</td>)
         }else   
-            columns.push(<td key={i}><input type="number" placeholder="0" className="numberArea"></input></td>)
+            columns.push(<td key={i}><input type="text" placeholder="0" className="numberArea"></input></td>)
     }
 
     return (

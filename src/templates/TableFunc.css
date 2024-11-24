@@ -26,11 +26,16 @@ td {
     border: 1px solid lightgray;
 }
 
-.Alternative-Inputs{
+.Alternative-Inputs,.Weight-Inputs{
     width: 93%;
     height: 20px;
     margin-top: 8px;
 }
+
+.Header-Type{
+    width: 214px
+}
+
 
 .First-Row-Element{
     display: flex;
