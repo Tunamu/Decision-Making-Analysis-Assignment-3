@@ -36,7 +36,7 @@ function App() {
     const AlternativeValue = AlternativeElements.map(input=>input.value);
     //console.log("Alternative values : "+AlternativeValue)
 
-  useEffect(() => {
+  /*useEffect(() => {
       
       if (checkboxValues.length && inputValues.length && weightValues.length) {
         
@@ -51,7 +51,7 @@ function App() {
         const tempResultsArray = resultsArrayFinder(weightValues, newMatrix, checkboxValues);
         setResultArray(tempResultsArray);
       }
-    }, [reRender]);
+    }, [reRender]);*/
 
   function valueReaderAndCalculator(){
       const newMatrix = Array(column-1).fill(null).map(() => Array(row).fill(0));
@@ -73,8 +73,8 @@ function App() {
   function resultsArrayFinder(weightValuesArray,numbersArray,isCheckedArray){
     var resultsArray = new Array(2).fill("")
     
-    var tempResults = FirstStep(numbersArray,isCheckedArray);
-    SecondStep(weightValuesArray,tempResults,isCheckedArray);
+    var tempResultsFromFirstStep = FirstStep(numbersArray,isCheckedArray);
+    SecondStep(weightValuesArray,tempResultsFromFirstStep,isCheckedArray);
 
     for(let i = 0 ; i < (column-2) ;i++){
       let tempResult = 0;
@@ -93,26 +93,40 @@ function App() {
   }
   
   function FirstStep(numbersArray, isCheckedArray){
+    //TODO buralar çözülecek
+    var floatMatrix = numbersArray.map(row => row.map(element => parseFloat(element)));
+
     var tempResultArray = Array(column-1).fill(null).map(() => Array(row).fill(0));
 
-    for(let i = 0 ; i < row ; i++){
-      for(let j = 0 ; j < column-1 ; j++){
+    var transpozeArray = numbersArray[0].map((_, colIndex) => numbersArray.map(row => row[colIndex]));
+
+    console.log(numbersArray);
+    console.log("AAAAAA  "+numbersArray[0][0])
+    console.log(numbersArray[0][0])
+    console.log(numbersArray[0][1])
+    console.log(Math.max(numbersArray[0].map(element => parseInt(element))))
+    console.log(Math.max(numbersArray[1]))
+    
+    /*
+    for(let i = 0 ; i < column-1 ; i++){
+      for(let j = 0 ; j < row ; j++){
         if(isCheckedArray[j]){
           tempResultArray[j][i] = ((Math.max(numbersArray[i])-numbersArray[j][i])/(Math.max(i)-Math.min(i)));
         }
       }
-    }
-
-    console.log("First Step:"+tempResultArray)
+    }*/
+    
+    //console.log("First Step:"+tempResultArray)
 
     return tempResultArray;
   }
 
   function SecondStep(weightValues , resultsFromFirstStep , isCheckedArray){
-
+    //TODO burası yapılacak
   }
 
   function valueFormatter(){
+    //TODO burası ayarlanacak
     setRow(1);
     setColumn(2);
     setResultArray([])
