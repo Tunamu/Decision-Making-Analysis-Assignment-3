@@ -2,13 +2,13 @@ import './TableFunc.css'
 
 function headerArrayCreator(columnSize){
     const columnHeaders = [];
-    for (let i = 0; i < columnSize; i++) {
+    for (let i = 0; i <= columnSize; i++) {
         if (i === 0)    
-            columnHeaders.push("Parameters");
-        else if (i === 1)
-            columnHeaders.push("Weight (0-10)");
+            columnHeaders.push("Alternatives");
+        else if (i === columnSize)
+            columnHeaders.push("Results");
         else
-            columnHeaders.push("Alternative " + (i - 1));
+            columnHeaders.push("Parameter " + (i - 1));
     }
     return columnHeaders
 }
@@ -16,15 +16,16 @@ function headerArrayCreator(columnSize){
 function headerCreator(columnSize) {
     const columnHeaders = headerArrayCreator(columnSize);
     const columns = [];
-    for (let i = 0; i < columnSize; i++) {
-        if(i>1)
+    for (let i = 0; i <= columnSize; i++) {
+        if(i===0 || i===columnSize)
+            columns.push(<th className='Header-Type'>{columnHeaders[i]}</th>);
+        else{
             columns.push(
                 <th className='Header-Type'>
                     {columnHeaders[i]}
                     <input type='text' placeholder="Job" className='Alternative-Inputs'/>
                 </th>)
-        else
-            columns.push(<th className='Header-Type'>{columnHeaders[i]}</th>);
+        }
     }
 
     return (
@@ -34,25 +35,28 @@ function headerCreator(columnSize) {
     );
 }
 
-function rowCreator(rowSize,columnSize) {
+function rowCreator(rowSize,columnSize,result,biggest) {
     const rows = [];
     for (let i = 0; i < rowSize; i++) {
-        rows.push(rowGen(i,columnSize));  
+        rows.push(rowGen(i,columnSize,result[i],biggest));  
     }
     return rows;
 }
 
-function rowGen(index, columnSize) {
+function rowGen(index, columnSize, tempResult , biggest) {
     const columns = [];
-    for (let i = 0; i < columnSize; i++) {
+    for (let i = 0; i <= columnSize; i++) {
         if(i===0)
             columns.push(<td key={i} className="First-Row-Element">
                 <input type='checkbox' className='Row-Inputs checkboxes'/>
                 <input type='text' placeholder="Alternative Name" className='Row-Inputs texte'/>
             </td>);
-        else if(i===1)   
-            columns.push(<td key={i}><input type="number" placeholder="0" className="weigthInputs"></input></td>)
-        else   
+        else if(i=== columnSize){
+            if(biggest!=0 && tempResult===biggest)
+                columns.push(<td key={i} className='Result-Section Biggest-Result'>{tempResult}</td>)
+            else
+                columns.push(<td key={i} className='Result-Section'>{tempResult}</td>)
+        }else   
             columns.push(<td key={i}><input type="number" placeholder="0" className="numberArea"></input></td>)
     }
 
@@ -63,23 +67,6 @@ function rowGen(index, columnSize) {
     );
 }
 
-function resultRowGen(index,columnSize,resultArray,biggestNum){
-
-    const columnsForResults = [];
-    for(let i = 0 ; i< columnSize;i++){
-            if(biggestNum!== 0 && resultArray[i]===biggestNum)
-                columnsForResults.push(<td key={i} className='Result-Section biggestResult'>{resultArray[i]}</td>)
-            else
-                columnsForResults.push(<td key={i} className='Result-Section'>{resultArray[i]}</td>)
-    }
-
-    return(
-        <tr key={index}>
-            {columnsForResults}
-        </tr>
-    )
-}
-
 function TableFunc({rowSize, columnSize,results,biggest}) {
     return(
         <div className="fiels">
@@ -88,8 +75,7 @@ function TableFunc({rowSize, columnSize,results,biggest}) {
                     {headerCreator(columnSize)}
                 </thead>
                 <tbody>
-                    {rowCreator(rowSize,columnSize)}
-                    {resultRowGen(rowSize,columnSize,results,biggest)}
+                    {rowCreator(rowSize,columnSize ,results, biggest)}
                 </tbody>
             </table>    
         </div>

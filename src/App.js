@@ -6,10 +6,11 @@ import { useState, useEffect} from 'react';
 function App() {
   
   const [row,setRow ] = useState(1)
-  const [column , setColumn] = useState(3)
+  const [column , setColumn] = useState(2)
   const [resultArray,setResultArray] = useState(new Array(2).fill(""))
   const [reRender,setReRender] = useState(true)
 
+    
     //This section for finding all names and values
     //For checkboxes
     const checkboxElements = [...document.querySelectorAll('.checkboxes')];
@@ -90,7 +91,7 @@ function App() {
 
   function valueFormatter(){
     setRow(1);
-    setColumn(3);
+    setColumn(2);
     setResultArray([])
 
     //For formatting the input areas
@@ -113,7 +114,8 @@ function App() {
     const resultElements = [...document.querySelectorAll('.Result-Section')]
     resultElements.forEach(element=> element.value='')
   }
-
+  
+  
   return (
     <div className="Field">
       <h1>Multi Attribute Utility Theory </h1>
