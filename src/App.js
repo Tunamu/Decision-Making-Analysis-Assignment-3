@@ -36,22 +36,22 @@ function App() {
     //const AlternativeValue = AlternativeElements.map(input=>input.value);
     //console.log("Alternative values : "+AlternativeValue)
 
-  /*useEffect(() => {
+  useEffect(() => {
       //TODO burası yapılacak
       if (checkboxValues.length && inputValues.length && weightValues.length) {
         
-        const newMatrix = Array(column - 2).fill(null).map(() => Array(row).fill(0));
-  
+        const newMatrix = Array(column - 1).fill(null).map(() => Array(row).fill(0));
+        
         for (let i = 0; i < row; i++) {
-          for (let j = 0; j < column - 2; j++) {
-            newMatrix[j][i] = inputValues[((column - 2) * i) + j] || 0;
+          for (let j = 0; j < column - 1; j++) {
+            newMatrix[j][i] = inputValues[((column - 1) * i) + j] || 0;
           }
-        }
-  
-        const tempResultsArray = resultsArrayFinder(weightValues, newMatrix, checkboxValues);
-        setResultArray(tempResultsArray);
       }
-    }, [reRender]);*/
+    
+      const tempResultsArray = resultsArrayFinder(weightValues,newMatrix,checkboxValues);
+      setResultArray(tempResultsArray);
+      }
+    }, [reRender]);
 
   function valueReaderAndCalculator(){
       const newMatrix = Array(column-1).fill(null).map(() => Array(row).fill(0));
