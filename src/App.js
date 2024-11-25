@@ -27,13 +27,13 @@ function App() {
     //console.log("Input elements : "+inputValues)
 
     //For job names
-    const jobElements = [...document.querySelectorAll('.Alternative-Inputs')];
-    const jobValues = jobElements.map(input=>input.value);
+    //const jobElements = [...document.querySelectorAll('.Alternative-Inputs')];
+    //const jobValues = jobElements.map(input=>input.value);
     //console.log("Job values : "+jobValues)
 
     //For parameter names 
-    const AlternativeElements = [...document.querySelectorAll('.texte')];
-    const AlternativeValue = AlternativeElements.map(input=>input.value);
+    //const AlternativeElements = [...document.querySelectorAll('.texte')];
+    //const AlternativeValue = AlternativeElements.map(input=>input.value);
     //console.log("Alternative values : "+AlternativeValue)
 
   /*useEffect(() => {
@@ -66,34 +66,16 @@ function App() {
     setResultArray(tempResultsArray);
   }
 
-  useEffect(() => {}, [resultArray]);
-
-  //Finding the column results 
-
   function resultsArrayFinder(weightValuesArray,numbersArray,isCheckedArray){
-    var resultsArray = new Array(2).fill("")
     
     var tempResultsFromFirstStep = FirstStep(numbersArray,isCheckedArray);
-    SecondStep(weightValuesArray,tempResultsFromFirstStep,isCheckedArray);
-
-    for(let i = 0 ; i < (column-2) ;i++){
-      let tempResult = 0;
-      for(let j = 0 ; j< weightValuesArray.length ; j++){
-        
-        if(isCheckedArray[j]){
-          const weight = weightValuesArray[j] ?? 0; 
-          const number = numbersArray[i] && numbersArray[i][j] ? numbersArray[i][j] : 0;
-          tempResult+= weight*number;
-        }
-      }
-      resultsArray.push(tempResult)
-    }
+    var resultsArray  = SecondStep(weightValuesArray,tempResultsFromFirstStep,isCheckedArray);
     
     return resultsArray;
   }
   
   function FirstStep(numbersArray, isCheckedArray){
-    //TODO buralar çözülecek
+
     const floatMatrix = numbersArray.map(row => 
       row.map(element => parseFloat(element) || 0) 
   );
@@ -114,17 +96,32 @@ function App() {
       }
     }
     
-    console.log(tempResultArray)
+    //console.log(tempResultArray)
 
     return tempResultArray;
   }
 
   function SecondStep(weightValues , resultsFromFirstStep , isCheckedArray){
-    //TODO burası yapılacak
+
+    var resultArray = new Array(row).fill(0); 
+    //console.log(resultsFromFirstStep)
+
+
+    for(let i = 0 ; i < row ; i++){
+      let tempWeighted = 0
+      for(let j = 0 ; j < column-1 ; j++){
+        //console.log(i+"  "+j+"  "+weightValues[j]+"  "+resultsFromFirstStep[j][i])
+        tempWeighted += resultsFromFirstStep[j][i]*weightValues[j]/100.0;
+      }
+      resultArray[i]=tempWeighted;
+    }
+
+    //console.log(resultArray);
+    return resultArray;
   }
 
   function valueFormatter(){
-    //TODO burası ayarlanacak
+    
     setRow(1);
     setColumn(2);
     setResultArray([])
@@ -134,7 +131,7 @@ function App() {
     const checkboxElements = [...document.querySelectorAll('.checkboxes')];
     checkboxElements.forEach(checkbox => checkbox.checked = true);
 
-    const weightElements = [...document.querySelectorAll('.weigthInputs')];
+    const weightElements = [...document.querySelectorAll('.Weigth-Inputs')];
     weightElements.forEach(input=>input.value = '')
 
     const inputElements = [...document.querySelectorAll('.numberArea')];

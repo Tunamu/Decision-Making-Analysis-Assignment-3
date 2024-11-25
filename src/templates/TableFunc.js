@@ -46,6 +46,7 @@ function rowCreator(rowSize,columnSize,result,biggest) {
 
 function rowGen(index, columnSize, tempResult , biggest) {
     const columns = [];
+    
     for (let i = 0; i <= columnSize; i++) {
         if(i===0)
             columns.push(<td key={i} className="First-Row-Element">
