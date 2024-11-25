@@ -37,7 +37,7 @@ function App() {
     //console.log("Alternative values : "+AlternativeValue)
 
   /*useEffect(() => {
-      
+      //TODO burası yapılacak
       if (checkboxValues.length && inputValues.length && weightValues.length) {
         
         const newMatrix = Array(column - 2).fill(null).map(() => Array(row).fill(0));
@@ -75,7 +75,7 @@ function App() {
   }
   
   function FirstStep(numbersArray, isCheckedArray){
-
+    //TODO buradaki logic hata düzeltilecek
     const floatMatrix = numbersArray.map(row => 
       row.map(element => parseFloat(element) || 0) 
   );
