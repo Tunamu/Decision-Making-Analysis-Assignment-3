@@ -84,13 +84,14 @@ function App() {
     var tempResultArray = Array(column-1).fill(null).map(() => Array(row).fill(0));
     
 
+    console.log(numbersArray)
     for(let i = 0 ; i < column-1 ; i++){
       for(let j = 0 ; j < row ; j++){
         
         //console.log(floatMatrix[i][j]+" == "+isCheckedArray[j])
         //console.log(Math.max(...floatMatrix[i]))
         if(isCheckedArray[j]){
-          
+          console.log("Math.max = "+Math.max(...floatMatrix[i])+"  Math.min = "+Math.min(...floatMatrix[i])+"  numbersArray = "+numbersArray[i][j]+" HHH "+(Math.max(...floatMatrix[i])-numbersArray[i][j])/(Math.max(...floatMatrix[i])-Math.min(...floatMatrix[i])));
           tempResultArray[i][j] = ((Math.max(...floatMatrix[i])-numbersArray[i][j])/(Math.max(...floatMatrix[i])-Math.min(...floatMatrix[i])));
         }
       }
