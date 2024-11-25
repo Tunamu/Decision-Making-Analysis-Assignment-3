@@ -94,29 +94,27 @@ function App() {
   
   function FirstStep(numbersArray, isCheckedArray){
     //TODO buralar çözülecek
-    var floatMatrix = numbersArray.map(row => row.map(element => parseFloat(element)));
+    const floatMatrix = numbersArray.map(row => 
+      row.map(element => parseFloat(element) || 0) 
+  );
+    //console.log(floatMatrix);
 
     var tempResultArray = Array(column-1).fill(null).map(() => Array(row).fill(0));
-
-    var transpozeArray = numbersArray[0].map((_, colIndex) => numbersArray.map(row => row[colIndex]));
-
-    console.log(numbersArray);
-    console.log("AAAAAA  "+numbersArray[0][0])
-    console.log(numbersArray[0][0])
-    console.log(numbersArray[0][1])
-    console.log(Math.max(numbersArray[0].map(element => parseInt(element))))
-    console.log(Math.max(numbersArray[1]))
     
-    /*
+
     for(let i = 0 ; i < column-1 ; i++){
       for(let j = 0 ; j < row ; j++){
+        
+        //console.log(floatMatrix[i][j]+" == "+isCheckedArray[j])
+        //console.log(Math.max(...floatMatrix[i]))
         if(isCheckedArray[j]){
-          tempResultArray[j][i] = ((Math.max(numbersArray[i])-numbersArray[j][i])/(Math.max(i)-Math.min(i)));
+          
+          tempResultArray[i][j] = ((Math.max(...floatMatrix[i])-numbersArray[i][j])/(Math.max(...floatMatrix[i])-Math.min(...floatMatrix[i])));
         }
       }
-    }*/
+    }
     
-    //console.log("First Step:"+tempResultArray)
+    console.log(tempResultArray)
 
     return tempResultArray;
   }
