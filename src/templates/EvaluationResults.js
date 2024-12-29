@@ -8,14 +8,14 @@ const EvaluationResults = ({ results }) => {
         <thead>
           <tr>
             <th>Alternatif</th>
-            <th>Skor</th>
+            <th>Toplam Skor</th>
           </tr>
         </thead>
         <tbody>
           {results.map((result, index) => (
             <tr key={index}>
-              <td>{result.name || `Alternatif ${index + 1}`}</td>
-              <td>{result.score}</td>
+              <td>{result.name}</td>
+              <td>{result.totalScore}</td>
             </tr>
           ))}
         </tbody>
