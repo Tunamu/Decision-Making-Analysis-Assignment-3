@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import CriteriaManager from "./templates/CriteriaManager";
-import AlternativesManager from "./templates/AlternativesManager";
+import DynamicDEXTable from "./templates/DynamicDEXTable";
 import EvaluationResults from "./templates/EvaluationResults";
 
 const App = () => {
@@ -9,20 +8,26 @@ const App = () => {
   const [results, setResults] = useState([]);
 
   const evaluateAlternatives = () => {
-    // Alternatifleri değerlendir
+    const weights = { High: 3, Medium: 2, Low: 1 }; // Kategorik ağırlıklar
+
     const evaluated = alternatives.map((alt) => {
       let totalScore = 0;
 
       criteria.forEach((criterion) => {
-        const weight = criterion.weight || 1;
+        const category = criterion.category || "Medium";
+        const weight = weights[category] || 0;
         const value = alt[criterion.name] || 0;
-        totalScore += weight * value; // Kriter ağırlığını kullan
+
+        // Etki yönüne göre hesaplama
+        const adjustedValue =
+          criterion.impact === "Negative" ? -value : value;
+
+        totalScore += weight * adjustedValue;
       });
 
       return { ...alt, totalScore };
     });
 
-    // Alternatifleri skora göre sırala
     const sortedResults = evaluated.sort((a, b) => b.totalScore - a.totalScore);
     setResults(sortedResults);
   };
@@ -30,8 +35,12 @@ const App = () => {
   return (
     <div>
       <h1>DEX Karar Destek Sistemi</h1>
-      <CriteriaManager setCriteria={setCriteria} />
-      <AlternativesManager criteria={criteria} setAlternatives={setAlternatives} />
+      <DynamicDEXTable
+        criteria={criteria}
+        setCriteria={setCriteria}
+        alternatives={alternatives}
+        setAlternatives={setAlternatives}
+      />
       <button onClick={evaluateAlternatives} style={{ marginTop: "20px" }}>
         Alternatifleri Değerlendir
       </button>
