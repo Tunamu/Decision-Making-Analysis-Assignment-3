@@ -60,7 +60,7 @@ const App = () => {
         >
           Alternatifleri Değerlendir
         </button>
-        <EvaluationResults results={results} />
+        <EvaluationResults criteria={criteria} alternatives={results} />
       </main>
     </div>
   );
