@@ -1,45 +1,118 @@
 import React, { useState } from "react";
 
-const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives }) => {
+const DynamicDEXTable = () => {
+  const [criteria, setCriteria] = useState([]);
+  const [alternatives, setAlternatives] = useState([]);
   const [newCriterion, setNewCriterion] = useState("");
   const [newCategory, setNewCategory] = useState("Medium");
   const [newImpact, setNewImpact] = useState("Positive");
-  const [newAlternative, setNewAlternative] = useState({ name: "" });
+  const [parentCriterionId, setParentCriterionId] = useState(null);
+  const [newAlternative, setNewAlternative] = useState("");
 
-  // Yeni kriter ekleme
-  const addCriterion = () => {
+  // Kriter veya alt kriter ekleme
+  const addCriterion = (parentId = null) => {
     if (newCriterion.trim() !== "") {
-      setCriteria([
-        ...criteria,
-        { name: newCriterion, category: newCategory, impact: newImpact },
-      ]);
+      const newEntry = {
+        id: Date.now(),
+        name: newCriterion,
+        category: newCategory,
+        impact: newImpact,
+        subCriteria: [],
+      };
+
+      if (parentId === null) {
+        // Ana kriter ekle
+        setCriteria([...criteria, newEntry]);
+      } else {
+        // Alt kriter ekle
+        const updatedCriteria = addSubCriterion(criteria, parentId, newEntry);
+        setCriteria(updatedCriteria);
+      }
+
       setNewCriterion("");
-      setNewCategory("Medium");
-      setNewImpact("Positive");
+      setParentCriterionId(null);
     }
   };
 
-  // Yeni alternatif ekleme
+  // Alt kriter ekleme işlevi (hiyerarşi destekli)
+  const addSubCriterion = (list, parentId, newEntry) =>
+    list.map((item) =>
+      item.id === parentId
+        ? {
+            ...item,
+            subCriteria: [...item.subCriteria, newEntry],
+          }
+        : {
+            ...item,
+            subCriteria: addSubCriterion(item.subCriteria, parentId, newEntry),
+          }
+    );
+
+  // Alternatif ekleme
   const addAlternative = () => {
-    setAlternatives([...alternatives, newAlternative]);
-    setNewAlternative({ name: "" });
+    if (newAlternative.trim() !== "") {
+      const newAlt = { id: Date.now(), name: newAlternative, values: {} };
+      setAlternatives([...alternatives, newAlt]);
+      setNewAlternative("");
+    }
   };
 
-  // Alternatif güncelleme
-  const updateAlternative = (index, criterion, value) => {
-    const updatedAlternatives = [...alternatives];
-    updatedAlternatives[index] = {
-      ...updatedAlternatives[index],
-      [criterion]: parseFloat(value),
-    };
+  // Alternatif değerlerini güncelleme
+  const updateAlternative = (alternativeId, criterionId, value) => {
+    const updatedAlternatives = alternatives.map((alternative) =>
+      alternative.id === alternativeId
+        ? {
+            ...alternative,
+            values: {
+              ...alternative.values,
+              [criterionId]: value,
+            },
+          }
+        : alternative
+    );
     setAlternatives(updatedAlternatives);
   };
+
+  // Kriterlerin ve alt kriterlerin hiyerarşik olarak tabloya eklenmesi
+  const renderCriteria = (criteriaList, alternative, depth = 0) =>
+    criteriaList.flatMap((criterion) => {
+      const mainRow = (
+        <tr key={`${alternative.id}-${criterion.id}`}>
+          <td style={{ paddingLeft: `${depth * 20}px` }}>
+            {criterion.name} ({criterion.category}, {criterion.impact})
+          </td>
+          <td>
+            <input
+              type="number"
+              placeholder={criterion.name}
+              value={alternative.values[criterion.id] || ""}
+              onChange={(e) =>
+                updateAlternative(alternative.id, criterion.id, e.target.value)
+              }
+            />
+          </td>
+          <td>
+            <button onClick={() => setParentCriterionId(criterion.id)}>
+              Alt Kriter Ekle
+            </button>
+          </td>
+        </tr>
+      );
+
+      const subRows = renderCriteria(
+        criterion.subCriteria,
+        alternative,
+        depth + 1
+      );
+
+      return [mainRow, ...subRows];
+    });
 
   return (
     <div>
       <h2>Kriterler ve Alternatifler</h2>
 
-      {/* Kriter Ekleme */}
+      {/* Yeni kriter ekleme */}
       <div>
         <input
           type="text"
@@ -62,18 +135,22 @@ const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives 
           <option value="Positive">Pozitif</option>
           <option value="Negative">Negatif</option>
         </select>
-        <button onClick={addCriterion}>Kriter Ekle</button>
+        {parentCriterionId === null ? (
+          <button onClick={() => addCriterion(null)}>Kriter Ekle</button>
+        ) : (
+          <button onClick={() => addCriterion(parentCriterionId)}>
+            Alt Kriter Ekle
+          </button>
+        )}
       </div>
 
-      {/* Alternatif Ekleme */}
+      {/* Alternatif ekleme */}
       <div>
         <input
           type="text"
           placeholder="Alternatif Adı"
-          value={newAlternative.name}
-          onChange={(e) =>
-            setNewAlternative({ ...newAlternative, name: e.target.value })
-          }
+          value={newAlternative}
+          onChange={(e) => setNewAlternative(e.target.value)}
         />
         <button onClick={addAlternative}>Alternatif Ekle</button>
       </div>
@@ -82,30 +159,21 @@ const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives 
       <table border="1" style={{ marginTop: "20px", width: "100%" }}>
         <thead>
           <tr>
-            <th>Alternatifler</th>
-            {criteria.map((criterion, index) => (
-              <th key={index}>
-                {criterion.name} ({criterion.category}, {criterion.impact})
-              </th>
-            ))}
+            <th>Kriter</th>
+            <th>Değer</th>
+            <th>İşlemler</th>
           </tr>
         </thead>
         <tbody>
-          {alternatives.map((alt, rowIndex) => (
-            <tr key={rowIndex}>
-              <td>{alt.name}</td>
-              {criteria.map((criterion, colIndex) => (
-                <td key={colIndex}>
-                  <input
-                    type="number"
-                    value={alt[criterion.name] || ""}
-                    onChange={(e) =>
-                      updateAlternative(rowIndex, criterion.name, e.target.value)
-                    }
-                  />
+          {alternatives.map((alternative) => (
+            <React.Fragment key={alternative.id}>
+              <tr>
+                <td colSpan="3">
+                  <strong>{alternative.name}</strong>
                 </td>
-              ))}
-            </tr>
+              </tr>
+              {renderCriteria(criteria, alternative)}
+            </React.Fragment>
           ))}
         </tbody>
       </table>

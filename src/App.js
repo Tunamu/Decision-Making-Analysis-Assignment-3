@@ -8,21 +8,35 @@ const App = () => {
   const [results, setResults] = useState([]);
 
   const evaluateAlternatives = () => {
-    const weights = { High: 3, Medium: 2, Low: 1 }; // Kategorik ağırlıklar
+    const weights = { High: 3, Medium: 2, Low: 1 };
 
     const evaluated = alternatives.map((alt) => {
       let totalScore = 0;
 
-      criteria.forEach((criterion) => {
+      const calculateScore = (criterion) => {
         const category = criterion.category || "Medium";
         const weight = weights[category] || 0;
         const value = alt[criterion.name] || 0;
-
-        // Etki yönüne göre hesaplama
         const adjustedValue =
           criterion.impact === "Negative" ? -value : value;
 
-        totalScore += weight * adjustedValue;
+        // Alt kriterlerin hesaplanması
+        const subCriteriaScore =
+          (criterion.subCriteria || []).reduce((subTotal, subCriterion) => {
+            const subCategory = subCriterion.category || "Medium";
+            const subWeight = weights[subCategory] || 0;
+            const subValue = alt[subCriterion.name] || 0;
+            const subAdjustedValue =
+              subCriterion.impact === "Negative" ? -subValue : subValue;
+            return subTotal + subWeight * subAdjustedValue;
+          }, 0);
+
+        return weight * adjustedValue + subCriteriaScore;
+      };
+
+      // Her kriter ve alt kriterin skoru toplanır
+      criteria.forEach((criterion) => {
+        totalScore += calculateScore(criterion);
       });
 
       return { ...alt, totalScore };
