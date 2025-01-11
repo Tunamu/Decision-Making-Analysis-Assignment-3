@@ -89,9 +89,9 @@ const DynamicDEXTable = () => {
                   updateAlternative(alternative.id, criterion.id, e.target.value)
                 }
               >
-                <option value="High">Yüksek</option>
+                <option value="High">İyi/Yüksek</option>
                 <option value="Medium">Orta</option>
-                <option value="Low">Düşük</option>
+                <option value="Low">Kötü/Düşük</option>
               </select>
             )}
           </td>
@@ -131,9 +131,9 @@ const DynamicDEXTable = () => {
           onChange={(e) => setNewCategory(e.target.value)}
           style={{ marginRight: "10px" }}
         >
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
+          <option value="High">İyi/Yüksek</option>
+          <option value="Medium">Orta</option>
+          <option value="Low">Kötü/Düşük</option>
         </select>
         <button onClick={addCriterion}>
           {selectedCriterion ? "Alt Kriter Ekle" : "Kriter Ekle"}
