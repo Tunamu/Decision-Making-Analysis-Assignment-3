@@ -6,11 +6,11 @@ const DynamicDEXTable = () => {
   const [newCriterion, setNewCriterion] = useState("");
   const [newCategory, setNewCategory] = useState("Medium");
   const [newImpact, setNewImpact] = useState("Positive");
-  const [parentCriterionId, setParentCriterionId] = useState(null);
+  const [selectedCriterion, setSelectedCriterion] = useState(null); // Kriter seçimi
   const [newAlternative, setNewAlternative] = useState("");
 
   // Kriter veya alt kriter ekleme
-  const addCriterion = (parentId = null) => {
+  const addCriterion = () => {
     if (newCriterion.trim() !== "") {
       const newEntry = {
         id: Date.now(),
@@ -20,17 +20,17 @@ const DynamicDEXTable = () => {
         subCriteria: [],
       };
 
-      if (parentId === null) {
+      if (!selectedCriterion) {
         // Ana kriter ekle
         setCriteria([...criteria, newEntry]);
       } else {
         // Alt kriter ekle
-        const updatedCriteria = addSubCriterion(criteria, parentId, newEntry);
+        const updatedCriteria = addSubCriterion(criteria, selectedCriterion, newEntry);
         setCriteria(updatedCriteria);
       }
 
       setNewCriterion("");
-      setParentCriterionId(null);
+      setSelectedCriterion(null);
     }
   };
 
@@ -92,7 +92,7 @@ const DynamicDEXTable = () => {
             />
           </td>
           <td>
-            <button onClick={() => setParentCriterionId(criterion.id)}>
+            <button onClick={() => setSelectedCriterion(criterion.id)}>
               Alt Kriter Ekle
             </button>
           </td>
@@ -112,17 +112,20 @@ const DynamicDEXTable = () => {
     <div>
       <h2>Kriterler ve Alternatifler</h2>
 
-      {/* Yeni kriter ekleme */}
-      <div>
+      {/* Ana ve Alt Kriter Ekleme */}
+      <div style={{ marginBottom: "20px" }}>
+        <h3>Kriter Ekle</h3>
         <input
           type="text"
           placeholder="Kriter Adı"
           value={newCriterion}
           onChange={(e) => setNewCriterion(e.target.value)}
+          style={{ marginRight: "10px" }}
         />
         <select
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
+          style={{ marginRight: "10px" }}
         >
           <option value="High">High</option>
           <option value="Medium">Medium</option>
@@ -131,26 +134,30 @@ const DynamicDEXTable = () => {
         <select
           value={newImpact}
           onChange={(e) => setNewImpact(e.target.value)}
+          style={{ marginRight: "10px" }}
         >
           <option value="Positive">Pozitif</option>
           <option value="Negative">Negatif</option>
         </select>
-        {parentCriterionId === null ? (
-          <button onClick={() => addCriterion(null)}>Kriter Ekle</button>
-        ) : (
-          <button onClick={() => addCriterion(parentCriterionId)}>
-            Alt Kriter Ekle
-          </button>
+        <button onClick={addCriterion}>
+          {selectedCriterion ? "Alt Kriter Ekle" : "Kriter Ekle"}
+        </button>
+        {selectedCriterion && (
+          <div style={{ marginTop: "10px", color: "green" }}>
+            Seçilen Kriter ID: {selectedCriterion}
+          </div>
         )}
       </div>
 
       {/* Alternatif ekleme */}
-      <div>
+      <div style={{ marginBottom: "20px" }}>
+        <h3>Alternatif Ekle</h3>
         <input
           type="text"
           placeholder="Alternatif Adı"
           value={newAlternative}
           onChange={(e) => setNewAlternative(e.target.value)}
+          style={{ marginRight: "10px" }}
         />
         <button onClick={addAlternative}>Alternatif Ekle</button>
       </div>
