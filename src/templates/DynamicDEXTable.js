@@ -82,14 +82,18 @@ const DynamicDEXTable = () => {
             {criterion.name} ({criterion.category}, {criterion.impact})
           </td>
           <td>
-            <input
-              type="number"
-              placeholder={criterion.name}
-              value={alternative.values[criterion.id] || ""}
-              onChange={(e) =>
-                updateAlternative(alternative.id, criterion.id, e.target.value)
-              }
-            />
+            {criterion.subCriteria.length > 0 ? (
+              <span>-</span> // Alt kriteri olan kriterler için input yerine çizgi
+            ) : (
+              <input
+                type="number"
+                placeholder={criterion.name}
+                value={alternative.values[criterion.id] || ""}
+                onChange={(e) =>
+                  updateAlternative(alternative.id, criterion.id, e.target.value)
+                }
+              />
+            )}
           </td>
           <td>
             <button onClick={() => setSelectedCriterion(criterion.id)}>
