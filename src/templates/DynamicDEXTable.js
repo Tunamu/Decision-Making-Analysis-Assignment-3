@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
-const DynamicDEXTable = () => {
-  const [criteria, setCriteria] = useState([]);
-  const [alternatives, setAlternatives] = useState([]);
+const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives }) => {
   const [newCriterion, setNewCriterion] = useState("");
   const [newCategory, setNewCategory] = useState("Medium");
-  const [selectedCriterion, setSelectedCriterion] = useState(null); // Kriter seçimi
+  const [selectedCriterion, setSelectedCriterion] = useState(null);
   const [newAlternative, setNewAlternative] = useState("");
 
-  // Kriter veya alt kriter ekleme
   const addCriterion = () => {
     if (newCriterion.trim() !== "") {
       const newEntry = {
@@ -19,10 +16,8 @@ const DynamicDEXTable = () => {
       };
 
       if (!selectedCriterion) {
-        // Ana kriter ekle
         setCriteria([...criteria, newEntry]);
       } else {
-        // Alt kriter ekle
         const updatedCriteria = addSubCriterion(criteria, selectedCriterion, newEntry);
         setCriteria(updatedCriteria);
       }
@@ -32,21 +27,13 @@ const DynamicDEXTable = () => {
     }
   };
 
-  // Alt kriter ekleme işlevi (hiyerarşi destekli)
   const addSubCriterion = (list, parentId, newEntry) =>
     list.map((item) =>
       item.id === parentId
-        ? {
-            ...item,
-            subCriteria: [...item.subCriteria, newEntry],
-          }
-        : {
-            ...item,
-            subCriteria: addSubCriterion(item.subCriteria, parentId, newEntry),
-          }
+        ? { ...item, subCriteria: [...item.subCriteria, newEntry] }
+        : { ...item, subCriteria: addSubCriterion(item.subCriteria, parentId, newEntry) }
     );
 
-  // Alternatif ekleme
   const addAlternative = () => {
     if (newAlternative.trim() !== "") {
       const newAlt = { id: Date.now(), name: newAlternative, values: {} };
@@ -55,7 +42,6 @@ const DynamicDEXTable = () => {
     }
   };
 
-  // Alternatif değerlerini güncelleme
   const updateAlternative = (alternativeId, criterionId, value) => {
     const updatedAlternatives = alternatives.map((alternative) =>
       alternative.id === alternativeId
@@ -71,7 +57,6 @@ const DynamicDEXTable = () => {
     setAlternatives(updatedAlternatives);
   };
 
-  // Kriterlerin ve alt kriterlerin hiyerarşik olarak tabloya eklenmesi
   const renderCriteria = (criteriaList, alternative, depth = 0) =>
     criteriaList.flatMap((criterion) => {
       const mainRow = (
@@ -81,7 +66,7 @@ const DynamicDEXTable = () => {
           </td>
           <td>
             {criterion.subCriteria.length > 0 ? (
-              <span>-</span> // Alt kriteri olan kriterler için çizgi
+              <span>-</span>
             ) : (
               <select
                 value={alternative.values[criterion.id] || "Medium"}
@@ -103,11 +88,7 @@ const DynamicDEXTable = () => {
         </tr>
       );
 
-      const subRows = renderCriteria(
-        criterion.subCriteria,
-        alternative,
-        depth + 1
-      );
+      const subRows = renderCriteria(criterion.subCriteria, alternative, depth + 1);
 
       return [mainRow, ...subRows];
     });
@@ -116,7 +97,6 @@ const DynamicDEXTable = () => {
     <div>
       <h2>Kriterler ve Alternatifler</h2>
 
-      {/* Ana ve Alt Kriter Ekleme */}
       <div style={{ marginBottom: "20px" }}>
         <h3>Kriter Ekle</h3>
         <input
@@ -145,7 +125,6 @@ const DynamicDEXTable = () => {
         )}
       </div>
 
-      {/* Alternatif ekleme */}
       <div style={{ marginBottom: "20px" }}>
         <h3>Alternatif Ekle</h3>
         <input
@@ -158,7 +137,6 @@ const DynamicDEXTable = () => {
         <button onClick={addAlternative}>Alternatif Ekle</button>
       </div>
 
-      {/* Dinamik Tablo */}
       <table border="1" style={{ marginTop: "20px", width: "100%" }}>
         <thead>
           <tr>

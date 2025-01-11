@@ -3,7 +3,6 @@ import React from "react";
 const EvaluationResults = ({ criteria = [], alternatives = [] }) => {
   const weights = { High: 9, Medium: 6, Low: 3 };
 
-  // Kriter puanını hesaplayan fonksiyon
   const calculateScore = (criterion, alternativeValues) => {
     const criterionValue = alternativeValues[criterion.id] || "Medium"; // Varsayılan olarak Medium
     const weight = weights[criterion.category] || 6; // Kendi kategorisinin ağırlığı
