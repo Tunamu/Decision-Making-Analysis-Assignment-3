@@ -5,7 +5,6 @@ const DynamicDEXTable = () => {
   const [alternatives, setAlternatives] = useState([]);
   const [newCriterion, setNewCriterion] = useState("");
   const [newCategory, setNewCategory] = useState("Medium");
-  const [newImpact, setNewImpact] = useState("Positive");
   const [selectedCriterion, setSelectedCriterion] = useState(null); // Kriter seçimi
   const [newAlternative, setNewAlternative] = useState("");
 
@@ -16,7 +15,6 @@ const DynamicDEXTable = () => {
         id: Date.now(),
         name: newCriterion,
         category: newCategory,
-        impact: newImpact,
         subCriteria: [],
       };
 
@@ -79,20 +77,22 @@ const DynamicDEXTable = () => {
       const mainRow = (
         <tr key={`${alternative.id}-${criterion.id}`}>
           <td style={{ paddingLeft: `${depth * 20}px` }}>
-            {criterion.name} ({criterion.category}, {criterion.impact})
+            {criterion.name} ({criterion.category})
           </td>
           <td>
             {criterion.subCriteria.length > 0 ? (
-              <span>-</span> // Alt kriteri olan kriterler için input yerine çizgi
+              <span>-</span> // Alt kriteri olan kriterler için çizgi
             ) : (
-              <input
-                type="number"
-                placeholder={criterion.name}
-                value={alternative.values[criterion.id] || ""}
+              <select
+                value={alternative.values[criterion.id] || "Medium"}
                 onChange={(e) =>
                   updateAlternative(alternative.id, criterion.id, e.target.value)
                 }
-              />
+              >
+                <option value="High">Yüksek</option>
+                <option value="Medium">Orta</option>
+                <option value="Low">Düşük</option>
+              </select>
             )}
           </td>
           <td>
@@ -135,20 +135,12 @@ const DynamicDEXTable = () => {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-        <select
-          value={newImpact}
-          onChange={(e) => setNewImpact(e.target.value)}
-          style={{ marginRight: "10px" }}
-        >
-          <option value="Positive">Pozitif</option>
-          <option value="Negative">Negatif</option>
-        </select>
         <button onClick={addCriterion}>
           {selectedCriterion ? "Alt Kriter Ekle" : "Kriter Ekle"}
         </button>
         {selectedCriterion && (
           <div style={{ marginTop: "10px", color: "green" }}>
-            Seçilen Kriter ID: {selectedCriterion}
+            "{criteria.find((c) => c.id === selectedCriterion)?.name}" kriterine ekleniyor
           </div>
         )}
       </div>
