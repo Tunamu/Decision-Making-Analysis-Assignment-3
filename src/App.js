@@ -17,7 +17,7 @@ const App = () => {
       const value = alt[criterion.name] || 0;
       const adjustedValue = criterion.impact === "Negative" ? -value : value;
 
-      // Alt kriterlerin hesaplanması
+      // Calculation for sub-criteria
       const subCriteriaScore = (criterion.subCriteria || []).reduce(
         (subTotal, subCriterion) => {
           return subTotal + calculateScore(subCriterion, alt);
@@ -45,7 +45,7 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>DEX Karar Destek Sistemi</h1>
+        <h1>DEX Decision Support System</h1>
       </header>
       <main className="app-main">
         <DynamicDEXTable
@@ -58,7 +58,7 @@ const App = () => {
           onClick={evaluateAlternatives}
           className="evaluate-button"
         >
-          Alternatifleri Değerlendir
+          Evaluate Alternatives
         </button>
         <EvaluationResults criteria={criteria} alternatives={results} />
       </main>

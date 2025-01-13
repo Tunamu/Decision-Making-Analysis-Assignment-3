@@ -40,6 +40,7 @@ body {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
   }
   
   .evaluate-button:hover {
@@ -72,4 +73,3 @@ body {
   table tr:hover {
     background-color: #f1f1f1;
   }
-  

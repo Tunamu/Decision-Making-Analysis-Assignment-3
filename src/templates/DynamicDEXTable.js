@@ -74,15 +74,15 @@ const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives 
                   updateAlternative(alternative.id, criterion.id, e.target.value)
                 }
               >
-                <option value="High">İyi/Yüksek</option>
-                <option value="Medium">Orta</option>
-                <option value="Low">Kötü/Düşük</option>
+                <option value="High">Good/High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Bad/Low</option>
               </select>
             )}
           </td>
           <td>
             <button onClick={() => setSelectedCriterion(criterion.id)}>
-              Alt Kriter Ekle
+              Add Sub-Criterion
             </button>
           </td>
         </tr>
@@ -95,13 +95,13 @@ const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives 
 
   return (
     <div>
-      <h2>Kriterler ve Alternatifler</h2>
+      <h2>Criteria and Alternatives</h2>
 
       <div style={{ marginBottom: "20px" }}>
-        <h3>Kriter Ekle</h3>
+        <h3>Add Criterion</h3>
         <input
           type="text"
-          placeholder="Kriter Adı"
+          placeholder="Criterion Name"
           value={newCriterion}
           onChange={(e) => setNewCriterion(e.target.value)}
           style={{ marginRight: "10px" }}
@@ -111,38 +111,38 @@ const DynamicDEXTable = ({ criteria, setCriteria, alternatives, setAlternatives 
           onChange={(e) => setNewCategory(e.target.value)}
           style={{ marginRight: "10px" }}
         >
-          <option value="High">İyi/Yüksek</option>
-          <option value="Medium">Orta</option>
-          <option value="Low">Kötü/Düşük</option>
+          <option value="High">Good/High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Bad/Low</option>
         </select>
         <button onClick={addCriterion}>
-          {selectedCriterion ? "Alt Kriter Ekle" : "Kriter Ekle"}
+          {selectedCriterion ? "Add Sub-Criterion" : "Add Criterion"}
         </button>
         {selectedCriterion && (
           <div style={{ marginTop: "10px", color: "green" }}>
-            "{criteria.find((c) => c.id === selectedCriterion)?.name}" kriterine ekleniyor
+            Adding to "{criteria.find((c) => c.id === selectedCriterion)?.name}" criterion
           </div>
         )}
       </div>
 
       <div style={{ marginBottom: "20px" }}>
-        <h3>Alternatif Ekle</h3>
+        <h3>Add Alternative</h3>
         <input
           type="text"
-          placeholder="Alternatif Adı"
+          placeholder="Alternative Name"
           value={newAlternative}
           onChange={(e) => setNewAlternative(e.target.value)}
           style={{ marginRight: "10px" }}
         />
-        <button onClick={addAlternative}>Alternatif Ekle</button>
+        <button onClick={addAlternative}>Add Alternative</button>
       </div>
 
       <table border="1" style={{ marginTop: "20px", width: "100%" }}>
         <thead>
           <tr>
-            <th>Kriter</th>
-            <th>Değer</th>
-            <th>İşlemler</th>
+            <th>Criterion</th>
+            <th>Value</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
